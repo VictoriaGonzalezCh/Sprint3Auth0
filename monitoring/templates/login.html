@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login WMS Provesi</title>
+</head>
+<body>
+  <h1>WMS Provesi - Inicio de sesión</h1>
+
+  <p>Para continuar, inicia sesión con tu cuenta de Auth0.</p>
+
+  <a href="{% url 'social:begin' 'auth0' %}?next={{ request.GET.next|default:'/orders/' }}">
+    <button type="button">Iniciar sesión con Auth0</button>
+  </a>
+</body>
+</html>

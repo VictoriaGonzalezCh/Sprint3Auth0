@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar pedido {{ order.id }}</title>
+</head>
+<body>
+  <h1>Editar pedido #{{ order.id }}</h1>
+
+  <p>Rol actual: {{ role }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <label>Cantidad total:</label><br>
+    <input type="number" name="quantity" value="{{ order.quantity }}"><br><br>
+
+    <label>Lista de productos (IDs separados por coma):</label><br>
+    <input type="text" name="products_list" value="{{ order.products_list }}" size="50"><br><br>
+
+    <label>Encargado de alistar:</label><br>
+    <input type="text" name="picker_name" value="{{ order.picker_name }}"><br><br>
+
+    <label>Estado:</label><br>
+    <input type="text" name="status" value="{{ order.status }}"><br><br>
+
+    <button type="submit">Guardar cambios</button>
+  </form>
+
+  <p>
+    Tiempo de respuesta de esta vista (GET): {{ response_time_ms|floatformat:2 }} ms
+  </p>
+
+  <p>
+    <a href="{% url 'orders:list' %}">Volver a la lista</a>
+  </p>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de pedidos</title>
+</head>
+<body>
+  <h1>Pedidos WMS Provesi</h1>
+
+  {% if last_update_time_ms %}
+    <p>
+      Tiempo de respuesta de la última modificación:
+      {{ last_update_time_ms|floatformat:2 }} ms
+    </p>
+  {% endif %}
+
+    <p>Rol actual: <strong>{{ role }}</strong></p>
+
+
+  <table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID Pedido</th>
+        <th>Cantidad total</th>
+        <th>Lista de productos (IDs)</th>
+        <th>Encargado de alistar</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.products_list }}</td>
+          <td>{{ order.picker_name }}</td>
+          <td>{{ order.status }}</td>
+          <td>
+            <a href="{% url 'orders:edit' order.id %}">
+              <button type="button">Modificar</button>
+            </a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No hay pedidos registrados.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+ <p>
+  <a href="{% url 'custom_logout' %}">Cerrar sesión</a>
+</p>
+
+</body>
+</html>

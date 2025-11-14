@@ -250,9 +250,9 @@
         </div>
       </form>
 
-      {% if response_time_ms %}
+      {% if view_time_ms %}
         <div class="response-time">
-          Tiempo de respuesta de esta vista (GET): {{ response_time_ms|floatformat:2 }} ms
+          Tiempo de respuesta de esta vista (GET): {{ view_time_ms|floatformat:2 }} ms
         </div>
       {% endif %}
     </section>

@@ -2,57 +2,285 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Lista de pedidos</title>
+  <title>Pedidos WMS Provesi</title>
+
+  <!-- Fuente moderna (Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #0b1f55, #1b76ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1b2559;
+      overflow-x: hidden;
+    }
+
+    .page-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      padding: 40px 24px 32px;
+    }
+
+    .page-header {
+      color: #ffffff;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 28px 28px 20px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    }
+
+    .response-time {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      color: #111827;
+    }
+
+    thead {
+      background: #122554;
+      color: #ffffff;
+    }
+
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    thead th:nth-child(2),
+    thead th:nth-child(5) {
+      text-align: center;
+    }
+
+    tbody tr {
+      background: #ffffff;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f5f7fb; /* sombreado ligero para filas pares */
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: middle;
+    }
+
+    /* Cantidad total y Estado centrados */
+    tbody td:nth-child(2),
+    tbody td:nth-child(5) {
+      text-align: center;
+    }
+
+    .estado-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .btn-small {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .btn-edit {
+      background: #22c55e;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.5);
+    }
+
+    .btn-edit:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(16, 185, 129, 0.7);
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-start;
+    }
+
+    .logout-link {
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .logout-link a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .logout-link a:hover {
+      text-decoration: underline;
+    }
+
+    .provesi-brand {
+      position: fixed;
+      bottom: 18px;
+      right: 26px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .provesi-logo-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .page-wrapper {
+        padding: 24px 16px 32px;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .card {
+        padding: 20px 16px 18px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Pedidos WMS Provesi</h1>
+  <div class="page-wrapper">
+    <header class="page-header">
+      <h1 class="page-title">Pedidos WMS Provesi</h1>
+      <p class="page-subtitle">Rol actual: {{ role }}</p>
+    </header>
 
-  {% if last_update_time_ms %}
-    <p>
-      Tiempo de respuesta de la última modificación:
-      {{ last_update_time_ms|floatformat:2 }} ms
-    </p>
-  {% endif %}
+    <section class="card">
+      {% if last_update_time_ms %}
+        <p class="response-time">
+          Tiempo de respuesta de la última modificación:
+          <strong>{{ last_update_time_ms|floatformat:2 }} ms</strong>
+        </p>
+      {% endif %}
 
-    <p>Rol actual: <strong>{{ role }}</strong></p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Pedido</th>
+              <th>Cantidad total</th>
+              <th>Lista de productos (IDs)</th>
+              <th>Encargado de alistar</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+              <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.products_list }}</td>
+                <td>{{ order.picker_name }}</td>
+                <td>
+                  {% if order.status %}
+                    <span class="estado-pill">{{ order.status }}</span>
+                  {% else %}
+                    <span class="estado-pill">Alistamiento</span>
+                  {% endif %}
+                </td>
+                <td>
+                  <div class="actions-cell">
+                    <a href="{% url 'orders:edit' order.id %}" class="btn-small btn-edit">
+                      Modificar
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6">No hay pedidos registrados.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
+      <div class="logout-link">
+        <a href="{% url 'custom_logout' %}">Cerrar sesión</a>
+      </div>
+    </section>
+  </div>
 
-  <table border="1" cellpadding="6" cellspacing="0">
-    <thead>
-      <tr>
-        <th>ID Pedido</th>
-        <th>Cantidad total</th>
-        <th>Lista de productos (IDs)</th>
-        <th>Encargado de alistar</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for order in orders %}
-        <tr>
-          <td>{{ order.id }}</td>
-          <td>{{ order.quantity }}</td>
-          <td>{{ order.products_list }}</td>
-          <td>{{ order.picker_name }}</td>
-          <td>{{ order.status }}</td>
-          <td>
-            <a href="{% url 'orders:edit' order.id %}">
-              <button type="button">Modificar</button>
-            </a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="6">No hay pedidos registrados.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
- <p>
-  <a href="{% url 'custom_logout' %}">Cerrar sesión</a>
-</p>
-
+  <div class="provesi-brand">
+    <div class="provesi-logo-circle">P</div>
+    <span>Provesi Solutions</span>
+  </div>
 </body>
 </html>

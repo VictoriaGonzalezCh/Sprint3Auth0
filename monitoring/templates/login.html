@@ -2,15 +2,187 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Login WMS Provesi</title>
+  <title>WMS Provesi - Inicio de sesión</title>
+
+  <!-- Fuente moderna (Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      /* Degradado azul marino a azul eléctrico */
+      background: linear-gradient(135deg, #001b3b, #0066ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1b2559;
+      overflow: hidden;
+    }
+
+    .auth-logo-auth0 {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+
+    .login-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px 32px 28px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    .login-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #12335d;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      font-weight: 400;
+      color: #4d5567;
+      margin-bottom: 26px;
+    }
+
+    .auth-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      background: #18a04f; /* verde brillante */
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 18px rgba(11, 126, 49, 0.55);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .auth-button:hover {
+      background: #139343;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(11, 126, 49, 0.7);
+    }
+
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b7a35;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+    }
+
+    .auth-logo span {
+      margin-left: 4px;
+    }
+
+    /* simulación simple del logo de Auth0 */
+    .auth-logo-icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: #ff5b2e;
+      display: inline-block;
+      position: relative;
+    }
+
+    .auth-logo-icon::before,
+    .auth-logo-icon::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: #ff8b55;
+      opacity: 0.9;
+    }
+
+    .auth-logo-icon::before {
+      transform: translate(-7px, 0);
+    }
+
+    .auth-logo-icon::after {
+      transform: translate(7px, 0);
+    }
+
+    .provesi-brand {
+      position: fixed;
+      bottom: 18px;
+      right: 24px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .provesi-logo-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+  </style>
 </head>
 <body>
-  <h1>WMS Provesi - Inicio de sesión</h1>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <h1 class="login-title">WMS Provesi</h1>
+      <p class="login-subtitle">
+        Para continuar, inicia sesión con tu cuenta de Auth0.
+      </p>
 
-  <p>Para continuar, inicia sesión con tu cuenta de Auth0.</p>
+     <a
+  class="auth-button"
+  href="{% url 'social:begin' 'auth0' %}?next={{ request.GET.next|default:'/orders/' }}"
+>
+ 
+  <span>Iniciar sesión con Auth0</span>
+</a>
 
-  <a href="{% url 'social:begin' 'auth0' %}?next={{ request.GET.next|default:'/orders/' }}">
-    <button type="button">Iniciar sesión con Auth0</button>
-  </a>
+    </div>
+  </div>
+
+  <div class="provesi-brand">
+    <div class="provesi-logo-circle">P</div>
+    <span>Provesi Solutions</span>
+  </div>
 </body>
 </html>
